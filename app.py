@@ -15,4 +15,4 @@ db.init_app(app)
 
 cargar_rutas(app)
 
-app.run(port=8000)
+app.run(port=8000, debug=True)
