@@ -31,6 +31,16 @@
             color: #333;
         }
 
+        .error-message {
+            background-color: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
@@ -74,6 +84,19 @@
 <body>
     <div class="login-container">
         <h2>Iniciar Sesión</h2>
+
+        {% if estado == 'error1' %}
+            <div class="error-message">
+                {{ estado }}
+            </div>
+        {% endif %}
+
+        {% if estado == 'error2' %}
+            <div class="error-message">
+                {{ estado }}
+            </div>
+        {% endif %}
+
         <form action="/manipulacion_login" method="post">
             <div class="form-group">
                 <label for="email">Correo Electrónico</label>

@@ -31,6 +31,16 @@
             color: #333;
         }
 
+        .error-message {
+            background-color: #ffe6e6;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
@@ -76,6 +86,13 @@
 <body>
     <div class="signup-container">
         <h2>Crear Cuenta</h2>
+
+        {% if estado %}
+            <div class="error-message">
+                Este correo ya está registrado
+            </div>
+        {% endif %}
+
         <form action="/manipulacion_signup" method="post">
             <div class="form-group">
                 <label for="name">Nombre</label>

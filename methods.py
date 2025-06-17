@@ -24,7 +24,7 @@ def iniciar_sesion(email, password):
 
     if usuarios_existentes is None:
         print('La cuenta no existe')
-        return {'status': 'error', 'error': 'La cuenta no existe'}
+        return {'status': 'error1', 'error': 'La cuenta no existe'}
     
     if usuarios_existentes.verificar_password(password_plano = password):
         pass

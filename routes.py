@@ -8,14 +8,14 @@ def cargar_rutas(app):
     def inicio():
         lista_usuarios = encontrar_todos_los_usuarios()
         
-        print(lista_usuarios[0].name)
-        for usuario in lista_usuarios:
-            print(f'''
-        nombre usuario: {usuario.name}          
-        correo usuario: {usuario.email}
-        contraseña usuario: {usuario.password}
-        tipo de usuario: {usuario.user_type}          
-''')
+        #print(lista_usuarios[0].name)
+        #for usuario in lista_usuarios:
+            #print(f'''
+        #nombre usuario: {usuario.name}          
+        #correo usuario: {usuario.email}
+        #contraseña usuario: {usuario.password}
+        #tipo de usuario: {usuario.user_type}          
+#''')
         return render_template('index.html')
 
     @app.route('/dashboard')
@@ -24,11 +24,16 @@ def cargar_rutas(app):
 
     @app.route('/login')
     def login():
-        return render_template('login.html')
+        resultado = request.args.get('status')
+
+        return render_template('login.html', estado=resultado)
 
     @app.route('/signup')
     def signup():
-        return render_template('signup.html')
+
+        resultado = request.args.get('status')
+
+        return render_template('signup.html', estado=resultado)
 
     #Esta ruta va a manejar la info
     @app.route('/manipulacion_login', methods=['POST'])
@@ -40,7 +45,12 @@ def cargar_rutas(app):
         Correo: {email}    
         Constraseña: {password}    
     ''')
-        iniciar_sesion()
+        respuesta_login = iniciar_sesion(email, password)
+
+        print(respuesta_login)
+
+        if respuesta_login['status'] == 'error1':
+            return redirect(url_for('login', status = respuesta_login['status']))
 
         return redirect(url_for('dashboard'))
         
@@ -58,6 +68,16 @@ def cargar_rutas(app):
         Tipo de usuario: {user_type}    
     ''')
         
-        crear_cuenta(name, email, password, user_type)
+        respuesta_signup = crear_cuenta(name, email, password, user_type)
+
+        print(respuesta_signup)
+
+        if respuesta_signup['status'] == 'error':
+            return redirect(url_for('signup', status = respuesta_signup['status']))
 
         return redirect(url_for('login')) 
+
+    
+    @app.route('/error')
+    def error():
+        return render_template('error.html')    
