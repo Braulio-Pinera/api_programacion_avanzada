@@ -1,11 +1,21 @@
 #El archivo almacena rutas del servidor
 from flask import Flask, render_template, request, redirect, url_for
 
-from methods import crear_cuenta, iniciar_sesion
+from methods import crear_cuenta, iniciar_sesion, encontrar_todos_los_usuarios
 
 def cargar_rutas(app):
     @app.route('/')
     def inicio():
+        lista_usuarios = encontrar_todos_los_usuarios()
+        
+        print(lista_usuarios[0].name)
+        for usuario in lista_usuarios:
+            print(f'''
+        nombre usuario: {usuario.name}          
+        correo usuario: {usuario.email}
+        contraseña usuario: {usuario.password}
+        tipo de usuario: {usuario.user_type}          
+''')
         return render_template('index.html')
 
     @app.route('/dashboard')
