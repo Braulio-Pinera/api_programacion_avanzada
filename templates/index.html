@@ -3,43 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Inicio</title>
+    <title>PopcornHour - Inicio</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            text-align: center;
+            font-family: 'Arial', sans-serif;
             background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
-        header {
+        .home-container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            color: #e50914;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .home-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
             background-color: #6200ea;
             color: white;
-            padding: 20px;
-            font-size: 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
         }
 
-        .content {
-            padding: 20px;
-        }
-
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        .home-btn:hover {
+            background-color: #4500b5;
         }
     </style>
 </head>
 <body>
-    <header>
-        Bienvenido a mi página de inicio
-    </header>
-    <div class="content">
-        <h1>¡Hola!</h1>
-        <p>Esta es una página de inicio con una imagen de Internet.</p>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Python-logo-notext.svg/1200px-Python-logo-notext.svg.png" alt="Imagen de ejemplo">
+    <div class="home-container">
+        <div class="logo">🍿 PopcornHour</div>
+        <div class="subtitle">Tu lugar para calificar películas</div>
+        <a href="/login" class="home-btn">Iniciar Sesión</a>
+        <a href="/signup" class="home-btn">Crear Cuenta</a>
     </div>
 </body>
 </html>

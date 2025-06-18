@@ -87,13 +87,13 @@
 
         {% if estado == 'error1' %}
             <div class="error-message">
-                {{ estado }}
+                Este correo no está registrado
             </div>
         {% endif %}
 
         {% if estado == 'error2' %}
             <div class="error-message">
-                {{ estado }}
+                Contraseña incorrecta
             </div>
         {% endif %}
 
@@ -107,6 +107,9 @@
                 <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
             </div>
             <button type="submit" class="submit-btn">Ingresar</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <a href="/" style="color: #6200ea; text-decoration: none;">Volver a la página de inicio</a>
+            </div>
         </form>
     </div>
 </body>
