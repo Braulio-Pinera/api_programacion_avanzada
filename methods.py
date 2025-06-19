@@ -2,7 +2,8 @@
 from models import Usuario, PeliculaSerie, Calificacion, Comentario
 from extensions import jwt
 from flask_jwt_extended import create_access_token
-from datetime import date, timedelta
+from datetime import date, timedelta, timezone
+from extensions import db
 
 def crear_cuenta(name, email, password, user_type):
     #Crear objeto tipo usuario que contendrá info para DB
@@ -51,12 +52,54 @@ def encontrar_usuario_por_id(user_id):
     
     return usuario
 
-def crear_contenido(titulo, descripcion, fecha_lanzamiento, tipo, genero, creado_por_id):
-    nuevo_contenido = PeliculaSerie(
-        titulo=titulo,
-        descripcion=descripcion,
-        fecha_lanzamiento=fecha_lanzamiento,
-        tipo=tipo,
-        genero=genero,
-        creado_por=creado_por_id
+def encontrar_pelicula_serie_por_id(pelicula_serie_id):
+    pelicula_serie = PeliculaSerie.query.filter_by(id=pelicula_serie_id).first()
+    if pelicula_serie == None:
+        return {'status': 'Error', 'Error': 'La película no existe en la DB'}
+    
+    return pelicula_serie
+
+def crear_contenido(formulario, usuario_id):
+    nueva_pelicula_serie = PeliculaSerie(
+        titulo=formulario['titulo'],
+        descripcion=formulario['descripcion'],
+        fecha_lanzamiento=date.fromisoformat(formulario['fecha_lanzamiento']),
+        tipo=formulario['tipo'],
+        genero=formulario['genero'],
+        usuario_id=usuario_id
     )
+
+    nueva_pelicula_serie.save()
+
+    return {'status': 'okay', 'nueva_pelicula_serie': nueva_pelicula_serie}
+
+def crear_calificacion(peliculas_series_id, puntuacion, usuario_id):
+    calificacion_existente = Calificacion.query.filter_by(
+        usuario_id=usuario_id,
+        peliculas_series_id=peliculas_series_id
+    ).first()
+
+    if calificacion_existente:
+        calificacion_existente.puntuacion = puntuacion
+        nueva = calificacion_existente.puntuacion
+    else:
+        nueva = Calificacion(
+            usuario_id=usuario_id,
+            peliculas_series_id=peliculas_series_id,
+            puntuacion=puntuacion
+        )
+        db.session.add(nueva)
+    
+    db.session.commit()
+    return {'status': 'okay', 'nueva_calificacion': nueva}
+
+def crear_comentario(peliculas_series_id, texto, usuario_id):
+    nuevo_comentario = Comentario(
+        peliculas_series_id=peliculas_series_id,
+        usuario_id=usuario_id,
+        texto=texto,
+    )
+
+    nuevo_comentario.save()
+
+    return {'status': 'okay', 'nuevo_comentario': nuevo_comentario}

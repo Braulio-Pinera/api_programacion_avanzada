@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 #Módulo para hashear contraseñas
 from werkzeug.security import check_password_hash, generate_password_hash
 
+
 class Usuario(db.Model):
     __tablename__ = 'usuarios'
 
@@ -56,7 +57,7 @@ class PeliculaSerie(db.Model):
     )
 
     calificaciones = db.relationship('Calificacion', backref='contenido', cascade="all, delete")
-    comentarios = db.relationship('Comentario', backref='contenido', cascade="all, delete")
+    comentarios = db.relationship('Comentario', backref='contenido', lazy='dynamic', cascade="all, delete")
 
     def save(self):
         #Crear conexión con DB
@@ -81,7 +82,7 @@ class Calificacion(db.Model):
 
     __table_args__ = (
         db.CheckConstraint('puntuacion >= 1 AND puntuacion <= 5', name='chk_puntuacion'),
-        db.UniqueConstraint('usuario_id', 'contenido_id', name='uq_usuario_contenido')
+        db.UniqueConstraint('usuario_id', 'peliculas_series_id', name='uq_usuario_contenido')
     )
 
     def save(self):
@@ -95,6 +96,7 @@ class Calificacion(db.Model):
         db.session.delete(self)
         #Asegurar que los cambios se guarden
         db.session.commit()
+    
 
 class Comentario(db.Model):
     __tablename__ = 'comentarios'

@@ -15,8 +15,11 @@ app.config['JWT_SECRET_KEY'] = '8fRVMkuaOY9mVec40V7Igl6vu93FEx'
 #Le indicamos a la app que el token de acceso estará en las cookies
 app.config['JWT_TOKEN_LOCATION'] = ['cookies']
 app.config['JWT_ACCESS_COOKIE_NAME'] = 'access_token'
-app.config['JWT_COOKIE_CSFR_PROTECTION'] = False
+app.config['JWT_COOKIE_CSRF_PROTECTION'] = False
+app.config['JWT_COOKIE_SECURE'] = False  # Solo para pruebas locales, no usar en producción
+app.config['JWT_ACCESS_COOKIE_PATH'] = '/'  # Asegura que esté disponible en toda la app
 
+print(app.config['JWT_COOKIE_CSRF_PROTECTION'])
 #Objeto para controlar DB en python
 db.init_app(app)
 #Establecemos "conexión" entre jwt y la app

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Calificar Contenido</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        .titulo {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .descripcion {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        label, select, button {
+            display: block;
+            margin: 10px 0;
+        }
+        select {
+            padding: 6px;
+        }
+        button {
+            padding: 8px 12px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 class="titulo">Calificar "{{ contenido.titulo }}"</h2>
+        <p class="descripcion">{{ contenido.descripcion }}</p>
+
+        <form action="/calificar" method="post">
+            <input type="hidden" name="contenido_id" value="{{ contenido.id }}">
+            <label for="puntuacion">Selecciona tu calificación (1-5):</label>
+            <select name="puntuacion" id="puntuacion" required>
+                <option value="" disabled selected>Elige una opción</option>
+                <option value="1">1 - Muy mala</option>
+                <option value="2">2 - Mala</option>
+                <option value="3">3 - Regular</option>
+                <option value="4">4 - Buena</option>
+                <option value="5">5 - Excelente</option>
+            </select>
+            <button type="submit">Enviar calificación</button>
+        </form>
+
+        <a href="/">← Volver a inicio</a>
+    </div>
+</body>
+</html>
