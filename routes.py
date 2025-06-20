@@ -14,7 +14,7 @@ def cargar_rutas(app):
         access_token = request.cookies.get('access_token')
         datos_usuario = obtener_info_usuario()
         
-        if access_token == None or access_token == '':
+        if verificar_autenticacion() == False:
             return render_template('index.html')
         elif datos_usuario['user_type'] == 'estandar':
             print('Usuario estandar')
@@ -69,6 +69,8 @@ def cargar_rutas(app):
         
     @app.route('/manipulacion_signup', methods=['POST'])
     def manipular_datos_signup():
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
@@ -93,6 +95,8 @@ def cargar_rutas(app):
     
     @app.route('/usuario')
     def pantalla_usuario():
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         try:
             verify_jwt_in_request()
 
@@ -111,51 +115,68 @@ def cargar_rutas(app):
 
     @app.route('/crear_contenido')
     def crear_series():
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         return render_template('crear.html')
     
     @app.route('/comentar', methods=['POST'])
     def comentar():
-        id_usuario = obtener_id_usuario()
-        texto = request.form.get("texto")
-        contenido_id = request.form.get("contenido_id")
-        comentario = crear_comentario(contenido_id, texto, id_usuario)
-        print(comentario)
-        if comentario['status'] == 'error':
-            return redirect(url_for('inicio', status = comentario['status']))     
-        return redirect(url_for("inicio"))
+        try:
+            id_usuario = obtener_id_usuario()
+            texto = request.form.get("texto")
+            contenido_id = request.form.get("contenido_id")
+            comentario = crear_comentario(contenido_id, texto, id_usuario)
+            print(comentario)
+            if comentario['status'] == 'error':
+                return redirect(url_for('inicio', status = comentario['status']))     
+            return redirect(url_for("inicio"))
+        except:
+            return redirect(url_for("login"))
                         
     @app.route('/comentar/<int:contenido_id>', methods=["GET", "POST"])
     def comentar_manipular(contenido_id):
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         contenido = PeliculaSerie.query.filter_by(id=contenido_id).first()
         return render_template('comentar.html', contenido=contenido)
 
     @app.route('/nuevo_contenido', methods=['POST'])
     def nuevo_contenido():
-        id_usuario = obtener_id_usuario()
-        datos_usuario = Usuario.query.filter_by(id=id_usuario).first()
-        if datos_usuario.user_type != 'moderador':
-            return 'Acceso no autorizado', 403
-        crear_contenido(request.form, id_usuario)
-        return redirect(url_for('inicio'))
+        try:
+            id_usuario = obtener_id_usuario()
+            datos_usuario = Usuario.query.filter_by(id=id_usuario).first()
+            if datos_usuario.user_type != 'moderador':
+                return 'Acceso no autorizado', 403
+            crear_contenido(request.form, id_usuario)
+            return redirect(url_for('inicio'))
+        except:
+            return redirect(url_for("login"))
     
     @app.route('/calificar/<int:contenido_id>', methods=["GET", "POST"])
     def calificar_manipular(contenido_id):
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         contenido = PeliculaSerie.query.filter_by(id=contenido_id).first()
         return render_template('calificar.html', contenido=contenido)
 
     @app.route('/calificar', methods=['POST'])
     def calificar():
-        id_usuario = obtener_id_usuario()
-        puntuacion = request.form.get("puntuacion")
-        contenido_id = request.form.get("contenido_id")
-        calificacion = crear_calificacion(contenido_id, puntuacion, id_usuario)
-        print(calificacion)
-        if calificacion['status'] == 'error':
-            return redirect(url_for('inicio', status = calificacion['status']))  
-        return redirect(url_for("inicio"))
+        try:
+            id_usuario = obtener_id_usuario()
+            puntuacion = request.form.get("puntuacion")
+            contenido_id = request.form.get("contenido_id")
+            calificacion = crear_calificacion(contenido_id, puntuacion, id_usuario)
+            print(calificacion)
+            if calificacion['status'] == 'error':
+                return redirect(url_for('inicio', status = calificacion['status']))  
+            return redirect(url_for("inicio"))
+        except:
+            return redirect(url_for("login"))
 
     @app.route('/perfil')
     def perfil():
+        if verificar_autenticacion() == False:
+            return redirect(url_for('login'))
         id_usuario = obtener_id_usuario()
         datos_usuario = Usuario.query.filter_by(id=id_usuario).first()
         return render_template('perfil.html', usuario=datos_usuario)
