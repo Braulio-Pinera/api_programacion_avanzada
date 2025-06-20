@@ -18,25 +18,16 @@
 - **Frontend:** HTML5, CSS3 (embebido), Jinja2
 - **Autenticación:** JSON Web Tokens (JWT), cookies seguras
 
-## 📦 Instalación
+## 🔒 Consideraciones de seguridad
 
-1. Clona el repositorio:
+- La aplicación usa JWT almacenados en cookies para manejar la sesión.
+- CSRF está desactivado para facilitar pruebas locales (JWT_COOKIE_CSRF_PROTECTION = False).
+- No usar la configuración actual de cookies seguras (JWT_COOKIE_SECURE = False) en producción.
+- Cambia la clave secreta en app.py antes de desplegar.
 
-   ```bash
-   git clone https://github.com/Braulio-Pinera/api_programacion_avanzada
-   cd programacion_avanzada
-
-2. Crea y activa un entorno virtual:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # En Windows: venv\Scripts\activate
-
-3. Instala las dependencias:
-   ```bash
-   pip install -r requirements.txt
-
-4. Configura la base de datos:
-    
-    Asegúrate de que la URI de conexión a PostgreSQL esté correctamente definida en app.py
-   ```python
-   app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres.lbouwqvcrbzjxzwhdjxl:&-Rz3h!nw%K%$Qg@aws-0-us-west-1.pooler.supabase.com:6543/postgres'
+## Notas
+- Las contraseñas se guardan hasheadas usando Werkzeug.
+- Los usuarios moderadores pueden crear contenido nuevo.
+- Las calificaciones se actualizan si el usuario ya calificó ese contenido.
+- Los comentarios se muestran en el perfil junto con calificaciones.
+- El token de acceso dura 3 minutos por configuración.
