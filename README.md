@@ -29,3 +29,28 @@
 - Buscador de contenido
 - Paginación de resultados
 - Gestión avanzada de usuarios (bloqueo, reportes)
+
+## Instalación
+
+1. Clona este repositorio:
+   ```bash
+   git clone <url-del-repositorio>
+   cd nombre-del-proyecto
+
+2. Crea y activa un entorno virtual:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # Linux/macOS
+   venv\Scripts\activate     # Windows
+
+3. Instala las dependencias:
+   ```bash
+   pip install -r requirements.txt
+
+4. Configura la base de datos PostgreSQL y modifica la cadena de conexión en app.py.
+
+5. Ejecuta la aplicación:
+   ```bash
+   python app.py
+
+6. Accede a http://localhost:8000 en tu navegador.
