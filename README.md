@@ -25,9 +25,7 @@
 - No usar la configuración actual de cookies seguras (JWT_COOKIE_SECURE = False) en producción.
 - Cambia la clave secreta en app.py antes de desplegar.
 
-## Notas
-- Las contraseñas se guardan hasheadas usando Werkzeug.
-- Los usuarios moderadores pueden crear contenido nuevo.
-- Las calificaciones se actualizan si el usuario ya calificó ese contenido.
-- Los comentarios se muestran en el perfil junto con calificaciones.
-- El token de acceso dura 3 minutos por configuración.
+## 📌 Mejoras futuras
+- Buscador de contenido
+- Paginación de resultados
+- Gestión avanzada de usuarios (bloqueo, reportes)

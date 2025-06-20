@@ -69,8 +69,6 @@ def cargar_rutas(app):
         
     @app.route('/manipulacion_signup', methods=['POST'])
     def manipular_datos_signup():
-        if verificar_autenticacion() == False:
-            return redirect(url_for('login'))
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
